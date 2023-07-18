@@ -5,7 +5,7 @@
 
 = Processamento Digital de Imagens
 Maressa Dâmaris Lima Diógenes
-
+    
 
 == Introdução
 Olá, me chamo Maressa Dâmaris, sou estudante de Engenharia Mecatrônica e este site tem como intúito apresentar a resolução de atividades realizadas ao longo da disciplina de Processamento Digital de Imagens utilizando para a mesma a biblioteca de visão computacional OpenCV em linguagem c++.
@@ -154,4 +154,42 @@ Sequência de Comandos:
 ----
 make labeling2
 ./labeling2 bolhas.png
+----
+==3.Manipulação de Histogramas
+===3.1 Equalização de Histograma
+
+Imagem de entrada:
+
+[[fig_igreja, igreja]]
+.Saída do programa equalize
+image::images/igreja.png[title="imagem de entrada escolhida para o programa equalize.cpp"]
+
+
+Imagens de saída:
+A figura <<fig_histogram>> mostra a imagem original em escala de cinza com o seu histograma
+
+[[fig_histogram, histogram]]
+.Saída do programa equalize
+image::images/histogram.png[title="imagem com histograma"]
+
+A figura <<fig_equalize>> mostra a imagem em escala de cinza com o seu histograma equalizado
+
+[[fig_equalize, equalize]]
+.Saída do programa equalize
+image::images/equalize.png[title="imagem com histograma equalizado"]
+
+
+Incluindo codigo do exemplo <<exa_equalize>>. 
+
+[[exa_equalize, equalize]]
+[source,cpp]
+.equalize.cpp
+----
+include::codigos/equalize.cpp[]
+----
+Sequência de Comandos:
+[source,ruby]
+----
+make equalize
+./equalize igreja.png
 ----

@@ -979,13 +979,130 @@ A figura <a href="#fig_labeling2">labeling2</a> mostra como incluir imagens no d
 <span class="p">.</span><span class="nf">/</span><span class="n">labeling2</span> <span class="n">bolhas</span><span class="p">.</span><span class="nf">png</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>==3.Manipulação de Histogramas
+===3.1 Equalização de Histograma</p>
+</div>
+<div class="paragraph">
+<p>Imagem de entrada:</p>
+</div>
+<div id="fig_igreja" class="imageblock">
+<div class="content">
+<img src="images/igreja.png" alt="igreja">
+</div>
+<div class="title">Figure 9. imagem de entrada escolhida para o programa equalize.cpp</div>
+</div>
+<div class="paragraph">
+<p>Imagens de saída:
+A figura <a href="#fig_histogram">histogram</a> mostra a imagem original em escala de cinza com o seu histograma</p>
+</div>
+<div id="fig_histogram" class="imageblock">
+<div class="content">
+<img src="images/histogram.png" alt="histogram">
+</div>
+<div class="title">Figure 10. imagem com histograma</div>
+</div>
+<div class="paragraph">
+<p>A figura <a href="#fig_equalize">equalize</a> mostra a imagem em escala de cinza com o seu histograma equalizado</p>
+</div>
+<div id="fig_equalize" class="imageblock">
+<div class="content">
+<img src="images/equalize.png" alt="equalize">
+</div>
+<div class="title">Figure 11. imagem com histograma equalizado</div>
+</div>
+<div class="paragraph">
+<p>Incluindo codigo do exemplo <a href="#exa_equalize">equalize</a>.</p>
+</div>
+<div id="exa_equalize" class="listingblock">
+<div class="title">equalize.cpp</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">cv</span><span class="p">;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">){</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">image</span><span class="p">,</span> <span class="n">imageEqualized</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">hist</span><span class="p">,</span> <span class="n">histEqualized</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">nbins</span> <span class="o">=</span> <span class="mi">64</span><span class="p">;</span>
+    <span class="kt">float</span> <span class="n">range</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">};</span>
+    <span class="k">const</span> <span class="kt">float</span> <span class="o">*</span><span class="n">histrange</span> <span class="o">=</span> <span class="p">{</span> <span class="n">range</span> <span class="p">};</span>
+    <span class="kt">bool</span> <span class="n">uniform</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">acummulate</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  
+    <span class="n">image</span><span class="o">=</span><span class="n">cv</span><span class="o">::</span><span class="n">imread</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">cv</span><span class="o">::</span><span class="n">IMREAD_GRAYSCALE</span><span class="p">);</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">image</span><span class="p">.</span><span class="n">data</span><span class="p">){</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Falha ao abrir imagem"</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">rows</span><span class="p">;</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">image</span><span class="p">.</span><span class="n">cols</span><span class="p">;</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"largura = "</span> <span class="o">&lt;&lt;</span> <span class="n">width</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"altura  = "</span> <span class="o">&lt;&lt;</span> <span class="n">height</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+    <span class="n">cv</span><span class="o">::</span><span class="n">equalizeHist</span><span class="p">(</span> <span class="n">image</span><span class="p">,</span> <span class="n">imageEqualized</span> <span class="p">);</span>
+
+    <span class="kt">int</span> <span class="n">histw</span> <span class="o">=</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">histh</span> <span class="o">=</span> <span class="n">nbins</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="nf">histImage</span><span class="p">(</span><span class="n">histh</span><span class="p">,</span> <span class="n">histw</span><span class="p">,</span> <span class="n">CV_8UC1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="nf">histImageEqualized</span><span class="p">(</span><span class="n">histh</span><span class="p">,</span> <span class="n">histw</span><span class="p">,</span> <span class="n">CV_8UC1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+        
+    <span class="n">cv</span><span class="o">::</span><span class="n">calcHist</span><span class="p">(</span><span class="o">&amp;</span><span class="n">image</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(),</span> <span class="n">hist</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="o">&amp;</span><span class="n">nbins</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">histrange</span><span class="p">,</span>
+                 <span class="n">uniform</span><span class="p">,</span> <span class="n">acummulate</span><span class="p">);</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">calcHist</span><span class="p">(</span><span class="o">&amp;</span><span class="n">imageEqualized</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(),</span> <span class="n">histEqualized</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="o">&amp;</span><span class="n">nbins</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">histrange</span><span class="p">,</span>
+                 <span class="n">uniform</span><span class="p">,</span> <span class="n">acummulate</span><span class="p">);</span>            
+
+    <span class="n">cv</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">hist</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">histImage</span><span class="p">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">NORM_MINMAX</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">());</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">histEqualized</span><span class="p">,</span> <span class="n">histEqualized</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">histImage</span><span class="p">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">NORM_MINMAX</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">());</span>
+
+    <span class="n">histImage</span><span class="p">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="n">histImageEqualized</span><span class="p">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nbins</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="n">cv</span><span class="o">::</span><span class="n">line</span><span class="p">(</span><span class="n">histImage</span><span class="p">,</span>
+                <span class="n">cv</span><span class="o">::</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">histh</span><span class="p">),</span>
+                <span class="n">cv</span><span class="o">::</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">-</span> <span class="n">histh</span> <span class="o">-</span> <span class="n">cvRound</span><span class="p">(</span><span class="n">hist</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">))),</span>
+                <span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="n">cv</span><span class="o">::</span><span class="n">line</span><span class="p">(</span><span class="n">histImageEqualized</span><span class="p">,</span>
+                <span class="n">cv</span><span class="o">::</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">histh</span><span class="p">),</span>
+                <span class="n">cv</span><span class="o">::</span><span class="n">Point</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">-</span> <span class="n">histh</span> <span class="o">-</span> <span class="n">cvRound</span><span class="p">(</span><span class="n">histEqualized</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">))),</span>
+                <span class="n">cv</span><span class="o">::</span><span class="n">Scalar</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">histImage</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">image</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="n">nbins</span><span class="p">,</span> <span class="n">histh</span><span class="p">)));</span>
+    <span class="n">histImageEqualized</span><span class="p">.</span><span class="n">copyTo</span><span class="p">(</span><span class="n">imageEqualized</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Rect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span><span class="n">nbins</span><span class="p">,</span> <span class="n">histh</span><span class="p">)));</span>
+
+    <span class="n">cv</span><span class="o">::</span><span class="n">namedWindow</span><span class="p">(</span><span class="s">"imagem original"</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">WINDOW_AUTOSIZE</span><span class="p">);</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">imshow</span><span class="p">(</span><span class="s">"imagem original"</span><span class="p">,</span> <span class="n">image</span><span class="p">);</span>  
+    <span class="n">cv</span><span class="o">::</span><span class="n">imshow</span><span class="p">(</span> <span class="s">"imagem equalizada"</span><span class="p">,</span> <span class="n">imageEqualized</span> <span class="p">);</span>
+    
+    <span class="n">cv</span><span class="o">::</span><span class="n">imwrite</span><span class="p">(</span><span class="s">"histogram.png"</span><span class="p">,</span> <span class="n">image</span><span class="p">);</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">imwrite</span><span class="p">(</span><span class="s">"equalize.png"</span><span class="p">,</span> <span class="n">imageEqualized</span><span class="p">);</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">waitKey</span><span class="p">();</span>
+    
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sequência de Comandos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="n">make</span> <span class="n">equalize</span>
+<span class="p">.</span><span class="nf">/</span><span class="n">equalize</span> <span class="n">igreja</span><span class="p">.</span><span class="nf">png</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-07-16 16:48:03 -0300
+Last updated 2023-07-18 02:21:38 -0300
 </div>
 </div>
 </body>
