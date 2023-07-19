@@ -569,9 +569,20 @@ pre.rouge .gs {
 <li><a href="#_2_1_desafio_esteganografia">2.1 Desafio esteganografia</a></li>
 </ul>
 </li>
-<li><a href="#_3_preenchendo_regiões">3. Preenchendo regiões</a>
+<li><a href="#_3_serialização_de_dados_em_ponto_flutuante_via_filestorage">3. Serialização de dados em ponto flutuante via FileStorage</a>
 <ul class="sectlevel2">
-<li><a href="#_3_1_algoritimo_labeling_aprimorado">3.1 Algoritimo labeling aprimorado</a></li>
+<li><a href="#_3_1_algoritimo_filestore_modificado">3.1 Algoritimo filestore modificado</a></li>
+</ul>
+</li>
+<li><a href="#_4_preenchendo_regiões">4. Preenchendo regiões</a>
+<ul class="sectlevel2">
+<li><a href="#_4_1_falha_no_algoritimo_labeling">4.1 Falha no algoritimo labeling</a></li>
+<li><a href="#_4_2_algoritimo_labeling_aprimorado">4.2 Algoritimo labeling aprimorado</a></li>
+</ul>
+</li>
+<li><a href="#_5_manipulação_de_histogramas">5.Manipulação de Histogramas</a>
+<ul class="sectlevel2">
+<li><a href="#_5_1_equalização_de_histograma">5.1 Equalização de Histograma</a></li>
 </ul>
 </li>
 </ul>
@@ -606,18 +617,21 @@ Se tiver intesse em utilizar os códigos abaixo, instale a biblioteca OpenCV (si
 <div class="sect2">
 <h3 id="_1_1_negativo">1.1 Negativo</h3>
 <div class="paragraph">
-<p>Imagem de entrada:
-A figura <a href="#fig_torre">torre</a> mostra como incluir imagens no documento</p>
+<p>O programa <a href="#exa_regions">regions.cpp</a> usa as coordenadas para dois pontos em uma imagem e inverte os valores de cores no alongamento desses pontos, formando uma região retângular com o efeito de imagem negativo.</p>
+</div>
+<div class="paragraph">
+<p>Usando como exemplo de entrada a imagem: <a href="#fig_torre">torre.png</a></p>
 </div>
 <div id="fig_torre" class="imageblock">
 <div class="content">
 <img src="images/torre.png" alt="torre">
 </div>
-<div class="title">Figure 1. entrada do programa regions.cpp</div>
+<div class="title">Figure 1. entrada do programa regions.cpp(imagem autoral)</div>
 </div>
 <div class="paragraph">
-<p>Imagem de saída:
-A figura <a href="#fig_regions">regions</a> mostra como incluir imagens no documento</p>
+<p>Para as coordenas do ponto 1: x=200 e y=100
+Para as coordenas do ponto 2: x=500 e y=400
+O resultado é a imgem <a href="#fig_regions">regions.png</a></p>
 </div>
 <div id="fig_regions" class="imageblock">
 <div class="content">
@@ -626,7 +640,7 @@ A figura <a href="#fig_regions">regions</a> mostra como incluir imagens no docum
 <div class="title">Figure 2. saída do programa regions.cpp</div>
 </div>
 <div class="paragraph">
-<p>Incluindo codigo do exemplo <a href="#exa_regions">regions</a>.</p>
+<p>Incluindo codigo do exemplo <a href="#exa_regions">regions.cpp</a>.</p>
 </div>
 <div id="exa_regions" class="listingblock">
 <div class="title">regions.cpp</div>
@@ -692,17 +706,17 @@ A figura <a href="#fig_regions">regions</a> mostra como incluir imagens no docum
 <h3 id="_1_2_troca_regiões">1.2 Troca Regiões</h3>
 <div class="paragraph">
 <p>Imagem de entrada:
-A figura <a href="#fig_praia">praia</a> mostra como incluir imagens no documento</p>
+O programa <a href="#exa_trocaregioes">trocaregioes.cpp</a> inverte diagonalmente os quadrantes de uma imagem.
+A figura <a href="#fig_praia">praia.png</a> mostra um exemplo de entrada</p>
 </div>
 <div id="fig_praia" class="imageblock">
 <div class="content">
 <img src="images/praia.png" alt="praia">
 </div>
-<div class="title">Figure 3. entrada do programa regions.cpp</div>
+<div class="title">Figure 3. entrada do programa trocaregioes.cpp(imagem autoral)</div>
 </div>
 <div class="paragraph">
-<p>Imagem de saída:
-A figura <a href="#fig_trocaregies">trocaregies</a> mostra como incluir imagens no documento</p>
+<p>Imagem de saída com os quadrantes trocados: <a href="#fig_trocaregies">trocaregioes.png</a></p>
 </div>
 <div id="fig_trocaregies" class="imageblock">
 <div class="content">
@@ -711,7 +725,7 @@ A figura <a href="#fig_trocaregies">trocaregies</a> mostra como incluir imagens 
 <div class="title">Figure 4. saída do programa trocaregioes.cpp</div>
 </div>
 <div class="paragraph">
-<p>Incluindo codigo do exemplo <a href="#exa_trocaregioes">trocaregioes</a>.</p>
+<p>Código do programa <a href="#exa_trocaregioes">trocaregioes.cpp</a>:</p>
 </div>
 <div id="exa_trocaregioes" class="listingblock">
 <div class="title">trocaregioes.cpp</div>
@@ -788,8 +802,10 @@ A figura <a href="#fig_trocaregies">trocaregies</a> mostra como incluir imagens 
 <div class="sect2">
 <h3 id="_2_1_desafio_esteganografia">2.1 Desafio esteganografia</h3>
 <div class="paragraph">
-<p>Imagem de entrada:
-A figura <a href="#fig_esteg">esteg</a> mostra como incluir imagens no documento</p>
+<p>A esteganografia é uma técnica de ocultação de informações que consiste em esconder dados em meio a outros dados, de modo que sua presença seja imperceptível. Com esse intuito o programa <a href="#exa_esteg-encode2">esteg-encode2.cpp</a> cumpre o desafio de decompor as camadas de bits da imagem <a href="#fig_esteg">esteg.png</a> e apagar os bits mais significativos a fim de encontrar a imagem escondida nos bits menos significativos.</p>
+</div>
+<div class="paragraph">
+<p>Imagem de entrada:</p>
 </div>
 <div id="fig_esteg" class="imageblock">
 <div class="content">
@@ -798,8 +814,7 @@ A figura <a href="#fig_esteg">esteg</a> mostra como incluir imagens no documento
 <div class="title">Figure 5. entrada do programa esteg-encode2.cpp</div>
 </div>
 <div class="paragraph">
-<p>Imagem de saída:
-A figura <a href="#fig_imagemDecodificada">imagemDecodificada</a> mostra como incluir imagens no documento</p>
+<p>A figura decodificada <a href="#fig_imagemDecodificada">imagemDecodificada.png</a></p>
 </div>
 <div id="fig_imagemDecodificada" class="imageblock">
 <div class="content">
@@ -808,7 +823,7 @@ A figura <a href="#fig_imagemDecodificada">imagemDecodificada</a> mostra como in
 <div class="title">Figure 6. saída do programa esteg-encode2.cpp</div>
 </div>
 <div class="paragraph">
-<p>Incluindo codigo do exemplo <a href="#exa_esteg-encode2">esteg-encode2</a>.</p>
+<p>Código do programa <a href="#exa_esteg-encode2">esteg-encode2.cpp</a>:</p>
 </div>
 <div id="exa_esteg-encode2" class="listingblock">
 <div class="title">esteg-encode2.cpp</div>
@@ -866,32 +881,155 @@ A figura <a href="#fig_imagemDecodificada">imagemDecodificada</a> mostra como in
 </div>
 </div>
 <div class="sect1">
-<h2 id="_3_preenchendo_regiões">3. Preenchendo regiões</h2>
+<h2 id="_3_serialização_de_dados_em_ponto_flutuante_via_filestorage">3. Serialização de dados em ponto flutuante via FileStorage</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_3_1_algoritimo_labeling_aprimorado">3.1 Algoritimo labeling aprimorado</h3>
+<h3 id="_3_1_algoritimo_filestore_modificado">3.1 Algoritimo filestore modificado</h3>
+<div class="literalblock">
+<div class="content">
+<pre>Utilizando o programa filestorage.cpp como base, crie um programa que gere uma imagem de dimensões 256x256 pixels contendo uma senóide de 4 períodos com amplitude de 127 desenhada na horizontal, como aquela apresentada na Figura 6 . Grave a imagem no formato PNG e no formato YML. Compare os arquivos gerados, extraindo uma linha de cada imagem gravada e comparando a diferença entre elas. Trace um gráfico da diferença calculada ao longo da linha correspondente extraída nas imagens. O que você observa?</pre>
+</div>
+</div>
 <div class="paragraph">
-<p>Imagem de entrada:
-A figura <a href="#fig_bolhas">bolhas</a> mostra como incluir imagens no documento</p>
+<p>Saída do filestorage <a href="#fig_senoide">senoide.png</a>:</p>
+</div>
+<div id="fig_senoide" class="imageblock">
+<div class="content">
+<img src="images/senoide.png" alt="senoide">
+</div>
+<div class="title">Figure 7. saída do programa filestorage.cpp</div>
+</div>
+<div class="paragraph">
+<p>Saída do filestorage2 <a href="#fig_senoide2">senoide2.png</a>:</p>
+</div>
+<div id="fig_senoide2" class="imageblock">
+<div class="content">
+<img src="images/senoide2.png" alt="senoide2">
+</div>
+<div class="title">Figure 8. saída do programa filestorage2.cpp</div>
+</div>
+<div class="paragraph">
+<p>Plot de uma linha dos dados do arquivo yml gerados, no canto esquerdo um plot de senoide.png e do lado direito a de senoide2.png:</p>
+</div>
+<div id="fig_plot" class="imageblock">
+<div class="content">
+<img src="images/plot.png" alt="plot">
+</div>
+<div class="title">Figure 9. plot dos pontos das figuras geradas por filestorage.cpp e filestorage2.cpp</div>
+</div>
+<div class="paragraph">
+<p>Código do programa <a href="#exa_filestorage2">filestorage2.cpp</a>:</p>
+</div>
+<div id="exa_filestorage2" class="listingblock">
+<div class="title">filestorage2.cpp</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="cpp"><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;opencv2/opencv.hpp&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;sstream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="n">SIDE</span> <span class="o">=</span> <span class="mi">256</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">PERIODOS</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">stringstream</span> <span class="n">ss_img</span><span class="p">,</span> <span class="n">ss_yml</span><span class="p">;</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">image</span><span class="p">;</span>
+
+  <span class="n">ss_yml</span> <span class="o">&lt;&lt;</span> <span class="s">"senoide2-"</span> <span class="o">&lt;&lt;</span> <span class="n">SIDE</span> <span class="o">&lt;&lt;</span> <span class="s">".yml"</span><span class="p">;</span>
+  <span class="n">image</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="o">::</span><span class="n">zeros</span><span class="p">(</span><span class="n">SIDE</span><span class="p">,</span> <span class="n">SIDE</span><span class="p">,</span> <span class="n">CV_32FC1</span><span class="p">);</span>
+
+  <span class="n">cv</span><span class="o">::</span><span class="n">FileStorage</span> <span class="n">fs</span><span class="p">(</span><span class="n">ss_yml</span><span class="p">.</span><span class="n">str</span><span class="p">(),</span> <span class="n">cv</span><span class="o">::</span><span class="n">FileStorage</span><span class="o">::</span><span class="n">WRITE</span><span class="p">);</span>
+
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">SIDE</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">SIDE</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">image</span><span class="p">.</span><span class="n">at</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">127</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="n">PERIODOS</span> <span class="o">*</span> <span class="n">j</span> <span class="o">/</span> <span class="n">SIDE</span><span class="p">)</span> <span class="o">+</span> <span class="mi">128</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="n">fs</span> <span class="o">&lt;&lt;</span> <span class="s">"mat"</span> <span class="o">&lt;&lt;</span> <span class="n">image</span><span class="p">;</span>
+  <span class="n">fs</span><span class="p">.</span><span class="n">release</span><span class="p">();</span>
+
+  <span class="n">cv</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">NORM_MINMAX</span><span class="p">);</span>
+  <span class="n">image</span><span class="p">.</span><span class="n">convertTo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">CV_8U</span><span class="p">);</span>
+  <span class="n">ss_img</span> <span class="o">&lt;&lt;</span> <span class="s">"senoide2-"</span> <span class="o">&lt;&lt;</span> <span class="n">SIDE</span> <span class="o">&lt;&lt;</span> <span class="s">".png"</span><span class="p">;</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">imwrite</span><span class="p">(</span><span class="n">ss_img</span><span class="p">.</span><span class="n">str</span><span class="p">(),</span> <span class="n">image</span><span class="p">);</span>
+
+  <span class="n">fs</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">ss_yml</span><span class="p">.</span><span class="n">str</span><span class="p">(),</span> <span class="n">cv</span><span class="o">::</span><span class="n">FileStorage</span><span class="o">::</span><span class="n">READ</span><span class="p">);</span>
+  <span class="n">fs</span><span class="p">[</span><span class="s">"mat"</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">image</span><span class="p">;</span>
+
+  <span class="n">cv</span><span class="o">::</span><span class="n">normalize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">NORM_MINMAX</span><span class="p">);</span>
+  <span class="n">image</span><span class="p">.</span><span class="n">convertTo</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">CV_8U</span><span class="p">);</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">imshow</span><span class="p">(</span><span class="s">"image"</span><span class="p">,</span> <span class="n">image</span><span class="p">);</span>
+  <span class="n">cv</span><span class="o">::</span><span class="n">waitKey</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sequência de Comandos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="n">make</span> <span class="n">filestorage2</span>
+<span class="p">.</span><span class="nf">/</span><span class="n">filestorage2</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_4_preenchendo_regiões">4. Preenchendo regiões</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_4_1_falha_no_algoritimo_labeling">4.1 Falha no algoritimo labeling</h3>
+<div class="literalblock">
+<div class="content">
+<pre>Observando-se o programa labeling.cpp como exemplo, é possível verificar que caso existam mais de 255 objetos na cena, o processo de rotulação poderá ficar comprometido. Identifique a situação em que isso ocorre e proponha uma solução para este problema.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>O problema encontrado no codigo labeling.cpp é que ele usa a cor do pixel para contar os elementos encontrados, ou seja, seu valor se limita ao que a cor pode representar, que no caso é 255. Para resolver este problema, o código <a href="#exa_labeling2">labeling2.cpp</a> mostra uma solução separando um contador exclusivo para isso(nBuracos).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_4_2_algoritimo_labeling_aprimorado">4.2 Algoritimo labeling aprimorado</h3>
+<div class="literalblock">
+<div class="content">
+<pre>Aprimore o algoritmo de contagem apresentado para identificar regiões com ou sem buracos internos que existam na cena. Assuma que objetos com mais de um buraco podem existir. Inclua suporte no seu algoritmo para não contar bolhas que tocam as bordas da imagem. Não se pode presumir, a priori, que elas tenham buracos ou não.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Para resolver este exercício foi criado o programa <a href="#exa_labeling2">labeling2.cpp</a>
+Imagem de entrada: <a href="#fig_bolhas">bolhas.png</a></p>
 </div>
 <div id="fig_bolhas" class="imageblock">
 <div class="content">
 <img src="images/bolhas.png" alt="bolhas">
 </div>
-<div class="title">Figure 7. entrada do programa bolhas.cpp</div>
+<div class="title">Figure 10. entrada do programa bolhas.cpp</div>
 </div>
 <div class="paragraph">
-<p>Imagem de saída:
-A figura <a href="#fig_labeling2">labeling2</a> mostra como incluir imagens no documento</p>
+<p>Imagem de saída: <a href="#fig_labeling2">labeling2.png</a></p>
+</div>
+<div class="paragraph">
+<p>Saída do programa:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ruby"><span class="mi">256</span><span class="n">x256</span>
+<span class="n">a</span> <span class="n">figura</span> <span class="n">tem</span> <span class="mi">21</span> <span class="n">bolhas</span>
+<span class="n">a</span> <span class="n">figura</span> <span class="n">tem</span> <span class="mi">7</span> <span class="n">buracos</span></code></pre>
+</div>
 </div>
 <div id="fig_labeling2" class="imageblock">
 <div class="content">
 <img src="images/labeling2.png" alt="labeling2">
 </div>
-<div class="title">Figure 8. saída do programa labeling2.cpp</div>
+<div class="title">Figure 11. saída do programa labeling2.cpp</div>
 </div>
 <div class="paragraph">
-<p>Incluindo codigo do exemplo <a href="#exa_labeling2">labeling2</a>.</p>
+<p>Código do programa <a href="#exa_labeling2">labeling2.cpp</a>:</p>
 </div>
 <div id="exa_labeling2" class="listingblock">
 <div class="title">labeling2.cpp</div>
@@ -979,10 +1117,14 @@ A figura <a href="#fig_labeling2">labeling2</a> mostra como incluir imagens no d
 <span class="p">.</span><span class="nf">/</span><span class="n">labeling2</span> <span class="n">bolhas</span><span class="p">.</span><span class="nf">png</span></code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>==3.Manipulação de Histogramas
-===3.1 Equalização de Histograma</p>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_5_manipulação_de_histogramas">5.Manipulação de Histogramas</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_5_1_equalização_de_histograma">5.1 Equalização de Histograma</h3>
 <div class="paragraph">
 <p>Imagem de entrada:</p>
 </div>
@@ -990,29 +1132,29 @@ A figura <a href="#fig_labeling2">labeling2</a> mostra como incluir imagens no d
 <div class="content">
 <img src="images/igreja.png" alt="igreja">
 </div>
-<div class="title">Figure 9. imagem de entrada escolhida para o programa equalize.cpp</div>
+<div class="title">Figure 12. imagem de entrada escolhida para o programa equalize.cpp(imagem autoral)</div>
 </div>
 <div class="paragraph">
 <p>Imagens de saída:
-A figura <a href="#fig_histogram">histogram</a> mostra a imagem original em escala de cinza com o seu histograma</p>
+A figura <a href="#fig_histogram">histogram.png</a> mostra a imagem original em escala de cinza com o seu histograma</p>
 </div>
 <div id="fig_histogram" class="imageblock">
 <div class="content">
 <img src="images/histogram.png" alt="histogram">
 </div>
-<div class="title">Figure 10. imagem com histograma</div>
+<div class="title">Figure 13. imagem com histograma</div>
 </div>
 <div class="paragraph">
-<p>A figura <a href="#fig_equalize">equalize</a> mostra a imagem em escala de cinza com o seu histograma equalizado</p>
+<p>A figura <a href="#fig_equalize">equalize.png</a> mostra a imagem em escala de cinza com o seu histograma equalizado</p>
 </div>
 <div id="fig_equalize" class="imageblock">
 <div class="content">
 <img src="images/equalize.png" alt="equalize">
 </div>
-<div class="title">Figure 11. imagem com histograma equalizado</div>
+<div class="title">Figure 14. imagem com histograma equalizado</div>
 </div>
 <div class="paragraph">
-<p>Incluindo codigo do exemplo <a href="#exa_equalize">equalize</a>.</p>
+<p>Código do programa <a href="#exa_equalize">equalize.cpp</a>:</p>
 </div>
 <div id="exa_equalize" class="listingblock">
 <div class="title">equalize.cpp</div>
@@ -1102,7 +1244,7 @@ A figura <a href="#fig_histogram">histogram</a> mostra a imagem original em esca
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-07-18 02:21:38 -0300
+Last updated 2023-07-18 21:10:43 -0300
 </div>
 </div>
 </body>

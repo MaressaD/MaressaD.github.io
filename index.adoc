@@ -24,25 +24,25 @@ make <nomedoarquivocpp>
 == 1. Manipulando pixels em uma imagem
 
 === 1.1 Negativo 
+O programa <<exa_regions>> usa as coordenadas para dois pontos em uma imagem e inverte os valores de cores no alongamento desses pontos, formando uma região retângular com o efeito de imagem negativo.
 
-Imagem de entrada:
-A figura <<fig_torre>> mostra como incluir imagens no documento
+Usando como exemplo de entrada a imagem: <<fig_torre>> 
 
-[[fig_torre, torre]]
+[[fig_torre, torre.png]]
 .Entrada do programa regions
-image::images/torre.png[title="entrada do programa regions.cpp"]
+image::images/torre.png[title="entrada do programa regions.cpp(imagem autoral)"]
 
-Imagem de saída:
-A figura <<fig_regions>> mostra como incluir imagens no documento
-
-[[fig_regions, regions]]
+Para as coordenas do ponto 1: x=200 e y=100   
+Para as coordenas do ponto 2: x=500 e y=400
+O resultado é a imgem <<fig_regions>> 
+[[fig_regions, regions.png]]
 .Saída do programa regions
 image::images/regions.png[title="saída do programa regions.cpp"]
 
 
 Incluindo codigo do exemplo <<exa_regions>>. 
 
-[[exa_regions, regions]]
+[[exa_regions, regions.cpp]]
 [source,cpp]
 .regions.cpp
 ----
@@ -62,22 +62,22 @@ make regioes
 === 1.2 Troca Regiões
 
 Imagem de entrada:
-A figura <<fig_praia>> mostra como incluir imagens no documento
+O programa <<exa_trocaregioes>> inverte diagonalmente os quadrantes de uma imagem.
+A figura <<fig_praia>> mostra um exemplo de entrada
 
-[[fig_praia, praia]]
+[[fig_praia, praia.png]]
 .Entrada do programa regions
-image::images/praia.png[title="entrada do programa regions.cpp"]
+image::images/praia.png[title="entrada do programa trocaregioes.cpp(imagem autoral)"]
 
-Imagem de saída:
-A figura <<fig_trocaregies>> mostra como incluir imagens no documento
+Imagem de saída com os quadrantes trocados: <<fig_trocaregies>> 
 
-[[fig_trocaregies, trocaregies]]
+[[fig_trocaregies, trocaregioes.png]]
 .Saída do programa trocaregioes
 image::images/trocaregies.png[title="saída do programa trocaregioes.cpp"]
 
-Incluindo codigo do exemplo <<exa_trocaregioes>>. 
+Código do programa <<exa_trocaregioes>>: 
 
-[[exa_trocaregioes, trocaregioes]]
+[[exa_trocaregioes, trocaregioes.cpp]]
 [source,cpp]
 .trocaregioes.cpp
 ----
@@ -94,24 +94,23 @@ make trocaregioes
 == 2. Esteganografia e decomposição de imagens em planos de bits
 === 2.1 Desafio esteganografia
 
+A esteganografia é uma técnica de ocultação de informações que consiste em esconder dados em meio a outros dados, de modo que sua presença seja imperceptível. Com esse intuito o programa <<exa_esteg-encode2>> cumpre o desafio de decompor as camadas de bits da imagem <<fig_esteg>> e apagar os bits mais significativos a fim de encontrar a imagem escondida nos bits menos significativos.
 
 Imagem de entrada:
-A figura <<fig_esteg>> mostra como incluir imagens no documento
 
-[[fig_esteg, esteg]]
+[[fig_esteg, esteg.png]]
 .Entrada do programa esteg-encode2
 image::images/esteg.png[title="entrada do programa esteg-encode2.cpp"]
 
-Imagem de saída:
-A figura <<fig_imagemDecodificada>> mostra como incluir imagens no documento
+A figura decodificada <<fig_imagemDecodificada>> 
 
-[[fig_imagemDecodificada, imagemDecodificada]]
+[[fig_imagemDecodificada, imagemDecodificada.png]]
 .Saída do programa trocaregioes
 image::images/imagemDecodificada.png[title="saída do programa esteg-encode2.cpp"]
 
-Incluindo codigo do exemplo <<exa_esteg-encode2>>. 
+Código do programa <<exa_esteg-encode2>>:
 
-[[exa_esteg-encode2, esteg-encode2]]
+[[exa_esteg-encode2, esteg-encode2.cpp]]
 [source,cpp]
 .esteg-encode2.cpp
 ----
@@ -123,27 +122,82 @@ Sequência de Comandos:
 make esteg-encode2
 ./esteg-encode2 esteg.png
 ----
-== 3. Preenchendo regiões
-=== 3.1 Algoritimo labeling aprimorado
 
 
-Imagem de entrada:
-A figura <<fig_bolhas>> mostra como incluir imagens no documento
+== 3. Serialização de dados em ponto flutuante via FileStorage
+=== 3.1 Algoritimo filestore modificado
 
-[[fig_bolhas, bolhas]]
+    Utilizando o programa filestorage.cpp como base, crie um programa que gere uma imagem de dimensões 256x256 pixels contendo uma senóide de 4 períodos com amplitude de 127 desenhada na horizontal, como aquela apresentada na Figura 6 . Grave a imagem no formato PNG e no formato YML. Compare os arquivos gerados, extraindo uma linha de cada imagem gravada e comparando a diferença entre elas. Trace um gráfico da diferença calculada ao longo da linha correspondente extraída nas imagens. O que você observa?
+
+Saída do filestorage <<fig_senoide>>:
+
+[[fig_senoide, senoide.png]]
+.Saída do programa trocaregioes
+image::images/senoide.png[title="saída do programa filestorage.cpp"]
+
+Saída do filestorage2 <<fig_senoide2>>:
+
+[[fig_senoide2, senoide2.png]]
+.Saída do programa trocaregioes
+image::images/senoide2.png[title="saída do programa filestorage2.cpp"]
+
+Plot de uma linha dos dados do arquivo yml gerados, no canto esquerdo um plot de senoide.png e do lado direito a de senoide2.png:
+
+[[fig_plot, plot.png]]
+.Saída do programa trocaregioes
+image::images/plot.png[title="plot dos pontos das figuras geradas por filestorage.cpp e filestorage2.cpp"]
+
+Código do programa <<exa_filestorage2>>:
+
+[[exa_filestorage2,filestorage2.cpp]]
+[source,cpp]
+.filestorage2.cpp
+----
+include::codigos/filestorage2.cpp[]
+----
+Sequência de Comandos:
+[source,ruby]
+----
+make filestorage2
+./filestorage2 
+----
+
+
+== 4. Preenchendo regiões
+=== 4.1 Falha no algoritimo labeling
+
+    Observando-se o programa labeling.cpp como exemplo, é possível verificar que caso existam mais de 255 objetos na cena, o processo de rotulação poderá ficar comprometido. Identifique a situação em que isso ocorre e proponha uma solução para este problema.
+
+O problema encontrado no codigo labeling.cpp é que ele usa a cor do pixel para contar os elementos encontrados, ou seja, seu valor se limita ao que a cor pode representar, que no caso é 255. Para resolver este problema, o código <<exa_labeling2>> mostra uma solução separando um contador exclusivo para isso(nBuracos).
+
+=== 4.2 Algoritimo labeling aprimorado
+
+    Aprimore o algoritmo de contagem apresentado para identificar regiões com ou sem buracos internos que existam na cena. Assuma que objetos com mais de um buraco podem existir. Inclua suporte no seu algoritmo para não contar bolhas que tocam as bordas da imagem. Não se pode presumir, a priori, que elas tenham buracos ou não.
+
+Para resolver este exercício foi criado o programa <<exa_labeling2>>
+Imagem de entrada: <<fig_bolhas>>
+
+[[fig_bolhas, bolhas.png]]
 .Entrada do programa bolhas
 image::images/bolhas.png[title="entrada do programa bolhas.cpp"]
 
-Imagem de saída:
-A figura <<fig_labeling2>> mostra como incluir imagens no documento
+Imagem de saída: <<fig_labeling2>> 
 
-[[fig_labeling2, labeling2]]
+Saída do programa:
+[source,ruby]
+----
+256x256
+a figura tem 21 bolhas
+a figura tem 7 buracos
+----
+
+[[fig_labeling2, labeling2.png]]
 .Saída do programa trocaregioes
 image::images/labeling2.png[title="saída do programa labeling2.cpp"]
 
-Incluindo codigo do exemplo <<exa_labeling2>>. 
+Código do programa <<exa_labeling2>>:
 
-[[exa_labeling2, labeling2]]
+[[exa_labeling2, labeling2.cpp]]
 [source,cpp]
 .labeling2.cpp
 ----
@@ -155,33 +209,33 @@ Sequência de Comandos:
 make labeling2
 ./labeling2 bolhas.png
 ----
-==3.Manipulação de Histogramas
-===3.1 Equalização de Histograma
+== 5.Manipulação de Histogramas
+=== 5.1 Equalização de Histograma
 
 Imagem de entrada:
 
-[[fig_igreja, igreja]]
+[[fig_igreja, igreja.png]]
 .Saída do programa equalize
-image::images/igreja.png[title="imagem de entrada escolhida para o programa equalize.cpp"]
+image::images/igreja.png[title="imagem de entrada escolhida para o programa equalize.cpp(imagem autoral)"]
 
 
 Imagens de saída:
 A figura <<fig_histogram>> mostra a imagem original em escala de cinza com o seu histograma
 
-[[fig_histogram, histogram]]
+[[fig_histogram, histogram.png]]
 .Saída do programa equalize
 image::images/histogram.png[title="imagem com histograma"]
 
 A figura <<fig_equalize>> mostra a imagem em escala de cinza com o seu histograma equalizado
 
-[[fig_equalize, equalize]]
+[[fig_equalize, equalize.png]]
 .Saída do programa equalize
 image::images/equalize.png[title="imagem com histograma equalizado"]
 
 
-Incluindo codigo do exemplo <<exa_equalize>>. 
+Código do programa <<exa_equalize>>:
 
-[[exa_equalize, equalize]]
+[[exa_equalize, equalize.cpp]]
 [source,cpp]
 .equalize.cpp
 ----
